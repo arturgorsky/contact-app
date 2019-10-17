@@ -2,6 +2,8 @@ package pl.artur.contact.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -25,7 +27,7 @@ class ContactDAOTest {
 
 	@Test
 	void testSave() {
-		Contact contact = new Contact("Steve Jobs", "steve@apple.com", "Cupertino, CA", "1700123456789");
+		Contact contact = new Contact("Bill Gates", "bill@microsoft.com", "Redmond, WA", "1800123456789");
 		int result = dao.save(contact);
 		
 		assertTrue(result>0);
@@ -43,17 +45,29 @@ class ContactDAOTest {
 	void testGet() {
 		Integer id = 1;
 		Contact contact = dao.get(id);
+		if (contact != null) {
+			System.out.println(contact);
+		}
 		assertNotNull(contact);
 	}
 
 	@Test
 	void testDelete() {
-		fail("Not yet implemented");
+		Integer id = 3;
+		int result = dao.delete(id);
+		
+		assertTrue(result>0);
 	}
 
 	@Test
 	void testList() {
-		fail("Not yet implemented");
+		List<Contact> listContacts = dao.list();
+		
+		for (Contact contact : listContacts) {
+			System.out.println(contact);
+		}
+		
+		assertTrue(!listContacts.isEmpty());
 	}
 
 }
