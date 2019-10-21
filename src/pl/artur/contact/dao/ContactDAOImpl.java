@@ -1,5 +1,6 @@
 package pl.artur.contact.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import pl.artur.contact.model.Contact;
@@ -36,23 +38,30 @@ public class ContactDAOImpl implements ContactDAO {
 
 	@Override
 	public Contact get(Integer id) {
-		String sql = "SELECT * from Contact WHERE contact_id ="+ id;
+		String sql = "SELECT * from Contact WHERE contact_id =?";
 		ResultSetExtractor<Contact> extractor = new ResultSetExtractor<Contact>() {
 			@Override
 			public Contact extractData(ResultSet rs) throws SQLException, DataAccessException {
 				if (rs.next()) {
+					Integer contact_id = rs.getInt("contact_id");
 					String name = rs.getString("name");
 					String email = rs.getString("email");
 					String address = rs.getString("address");
 					String phone = rs.getString("telephone");
 					
-					return new Contact(name, email, address, phone);
+					return new Contact(contact_id,name, email, address, phone);
 					
 				}
 				return null;
 			}
 		};
-		return jdbcTemplate.query(sql, extractor);
+		return jdbcTemplate.query(sql, new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, id);
+				
+			}
+		},extractor);
 	}
 
 	@Override
