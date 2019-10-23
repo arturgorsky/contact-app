@@ -10,6 +10,7 @@
 <body>
 	<div align="center">
 		<h1>Contact List</h1>
+		<h3><a href="new">New contact</a> </h3>
 		<table border="1">
 			<tr>
 				<th>No</th>
