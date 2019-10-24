@@ -10,7 +10,9 @@
 <body>
 	<div align="center">
 		<h1>Contact List</h1>
-		<h3><a href="new">New contact</a> </h3>
+		<h3>
+			<a href="new">New contact</a>
+		</h3>
 		<table border="1">
 			<tr>
 				<th>No</th>
@@ -27,6 +29,8 @@
 					<td>${contact.email}</td>
 					<td>${contact.address}</td>
 					<td>${contact.phone}</td>
+					<td><a href="edit?id=${contact.id}" />Edit &nbsp;&nbsp;
+					<a href="delete?id=${contact.id}" />Delete</td>
 				</tr>
 
 			</c:forEach>
